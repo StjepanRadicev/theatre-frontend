@@ -38,9 +38,11 @@ const reservationRequestStarted = useRef(false);
 
 const heldUntil = cart
     ?.filter((seat) => seat.status === "HELD" && seat.heldUntil)
-    .map((seat) => new Date(seat.heldUntil).getTime())
+    .map((seat) => new Date(`${seat.heldUntil}Z`).getTime())
     .filter((time) => Number.isFinite(time))
     .sort((a, b) => a - b)[0];
+
+    
 
 useEffect(() => {
     if (!heldUntil) return;
