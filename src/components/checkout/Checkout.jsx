@@ -42,7 +42,10 @@ const heldUntil = cart
     .filter((time) => Number.isFinite(time))
     .sort((a, b) => a - b)[0];
 
-    
+    console.log("CART:", cart);
+console.log("HELD UNTIL:", heldUntil);
+console.log("CURRENT TIME:", Date.now());
+console.log("REMAINING SECONDS:", (heldUntil - Date.now()) / 1000);
 
 useEffect(() => {
     if (!heldUntil) return;
