@@ -42,22 +42,28 @@ const AddShowForm = ({ setOpen, show, update }) => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (update && show) {
-            reset({
-                showName: show.showName || "",
-                duration: show.duration || "",
-                description: show.description || "",
-                categoryId: show.categoryId || "",
-            });
-        } else {
-            reset({
-                showName: "",
-                duration: "",
-                description: "",
-                categoryId: "",
-            });
-        }
-    }, [update, show, reset]);
+    if (update && show) {
+
+        const selectedCategory = categories?.find(
+            (category) => category.categoryName === show.categoryName
+        );
+
+        reset({
+            showName: show.showName || "",
+            duration: show.duration || "",
+            description: show.description || "",
+            categoryId: selectedCategory?.categoryId ?? "",
+        });
+
+    } else {
+        reset({
+            showName: "",
+            duration: "",
+            description: "",
+            categoryId: "",
+        });
+    }
+}, [update, show, categories, reset]);
 
     const saveShowHandler = (data) => {
 
