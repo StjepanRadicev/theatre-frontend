@@ -774,7 +774,7 @@ export const updateShowFromDashboard =
             const { showId, categoryId, ...showData } = sendData;
 
             await api.put(
-                `/public/show/${showId}`,
+                `/admin/show/${showId}/categories/${categoryId}`,
                 showData
             );
 
