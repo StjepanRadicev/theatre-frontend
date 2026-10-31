@@ -11,6 +11,7 @@ export const fetchPerformances = (queryString) => async (dispatch) => {
             : `/public/performances/all`;
 
         const { data } = await api.get(url);
+        console.log("API IMAGE:", data.content?.[0]?.image);
         dispatch({
             type: "FETCH_PERFORMANCES",
             payload: data.content,
