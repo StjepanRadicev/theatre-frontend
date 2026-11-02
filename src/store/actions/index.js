@@ -11,7 +11,6 @@ export const fetchPerformances = (queryString) => async (dispatch) => {
             : `/public/performances/all`;
 
         const { data } = await api.get(url);
-        console.log("API IMAGE:", data.content?.[0]?.image);
         dispatch({
             type: "FETCH_PERFORMANCES",
             payload: data.content,
@@ -77,7 +76,6 @@ export const addToCart = (data, qty = 1, toast) =>
 
         // }
 
-      console.log("DODAJEM U CART:", data);
 
   dispatch({
     type: "ADD_CART",
@@ -96,7 +94,6 @@ export const addToCart = (data, qty = 1, toast) =>
     },
   });
 
-  console.log("CART POSLIJE:", getState().carts.cart);
 
   toast.success(`${data?.rowLabel} ${data?.seatNumber} added to the cart`);
 

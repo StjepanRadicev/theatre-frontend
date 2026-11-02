@@ -34,7 +34,6 @@ const usePerformanceFilter = () => {
 
 
         const queryString = params.toString();
-        console.log("QUERY STRING", queryString);
 
         dispatch(fetchPerformances(queryString));
 

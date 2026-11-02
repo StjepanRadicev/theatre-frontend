@@ -44,13 +44,10 @@ const PaymentForm = ({ clientSecret, totalPrice }) => {
     };
 
     const paymentElementOptions = {
-        layout: "tabs",
-        name: "never",
-        email: "never",
-        phone: "never",
-        address: "never",
-    }
+            layout: "tabs",
+        };
 
+        
     const isLoading = !clientSecret || !stripe || !elements;
 
 

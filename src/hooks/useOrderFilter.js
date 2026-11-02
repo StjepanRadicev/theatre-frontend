@@ -18,7 +18,6 @@ const useOrderFilter = () => {
 
     
         const queryString = params.toString();
-        console.log("QUERY STRING", queryString);
 
         dispatch(getOrdersForDashboard(queryString));
 

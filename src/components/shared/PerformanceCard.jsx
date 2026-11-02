@@ -34,7 +34,6 @@ const PerformanceCard = ({
 
     const [showSeats, setShowSeats] = useState(false);
 
-    console.log("PERFORMANCE IMAGE:", image);
     
 return (
     <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-4 bg-gray-500 border rounded-lg shadow-md overflow-hidden transition-shadow duration-300 p-4">
