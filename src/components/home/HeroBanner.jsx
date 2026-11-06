@@ -107,11 +107,11 @@ return (
 
                             {/* SLIKA */}
                             <div className="w-full md:w-1/2 lg:w-1/2 p-4 sm:p-6 order-1 md:order-2">
-                                <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] overflow-hidden rounded-lg">
+                                <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] flex items-center justify-center overflow-hidden rounded-lg">
                                     <img
                                         src={item.image}
                                         alt={item.showName}
-                                        className="w-full h-full object-cover"
+                                        className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg"
                                     />
                                 </div>
                             </div>

@@ -74,7 +74,7 @@ const AdminShows = () => {
                     className="bg-custom-blue hover:bg-blue-800 text-white font-semibold py-2 px-4 flex items-center gap-2 rounded-md shadow-md transition-colors hover:text-slate-300 duration-300"
                 >
                     <AiOutlineVideoCameraAdd />
-                    Dodaj Predstavu
+                    Kreiraj Predstavu
                 </button>
             </div>
 

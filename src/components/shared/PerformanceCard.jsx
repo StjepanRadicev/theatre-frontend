@@ -25,7 +25,7 @@ const PerformanceCard = ({
     const [openPerformanceViewModal, setOpenPerformanceViewModal] = useState(false);
     const btnLoader = false;
     const [selectedViewPerformance, setSelectedViewPerformance] = useState('');
-    const isAvaiable = status == "PUBLISHED" && Number(availableSeats) > 0;
+    const isAvaiable =   Number(availableSeats) > 0;
 
     const handlePerformanceView = (performance) => {
         setSelectedViewPerformance(performance);
@@ -61,10 +61,10 @@ return (
                 discount,
                 specialPrice,
             })}
-            className="col-span-1 md:col-span-3 lg:col-span-3 w-full aspect-[3/2] overflow-hidden cursor-pointer rounded-lg"
+            className="col-span-1 md:col-span-3 lg:col-span-3 w-full h-[200px] flex items-center justify-center overflow-hidden cursor-pointer rounded-lg"
         >
             <img
-                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                className="max-w-full max-h-full w-auto h-auto object-contain rounded-md"
                 src={image}
                 alt={showName}
             />

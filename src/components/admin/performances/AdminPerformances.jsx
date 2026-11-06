@@ -12,6 +12,7 @@ import AddPerformanceForm from './AddPerformanceForm';
 import ImageUploadForm from './ImageUploadForm';
 import PerformanceViewModal from '../../shared/PerformanceViewModal';
 import Status from '../../shared/Status';
+import toast from 'react-hot-toast';
 
 
 const AdminPerformances = () => {
@@ -65,7 +66,7 @@ const AdminPerformances = () => {
       discount: item.discount,
       status: item.status,
       isAvailable:
-            item.status === "PUBLISHED" &&
+            
             Number(item.availableSeats) > 0,
     };
   });
@@ -77,8 +78,15 @@ const AdminPerformances = () => {
     const description = selectedPerformance?.description;
 
   const handleEdit = (performance) => {
-    setSelectedPerformance(performance);
-    setOpenUpdateModal(true);
+      if (Number(performance.soldSeats) > 0) {
+          toast.error(
+              "Ažuriranje nije moguće jer izvedba ima prodane ili rezervirane ulaznice."
+          );
+          return;
+      }
+
+      setSelectedPerformance(performance);
+      setOpenUpdateModal(true);
   };
 
 
@@ -112,7 +120,7 @@ const AdminPerformances = () => {
           onClick={() => setOpenAddModal(true)}
           className='bg-custom-blue hover:bg-blue-800 text-white font-semibold py-2 px-4 flex items-center gap-2 rounded-md shadow-md transition-colors hover:text-slate-300 duration-300'>
           <AiOutlineVideoCameraAdd />
-            Dodaj Izvedbu
+            Kreiraj Izvedbu
         </button>
       </div>
 
@@ -197,7 +205,7 @@ const AdminPerformances = () => {
       <PerformanceViewModal 
         open={openPerformanceViewModal}
         setOpen={setOpenPerformanceViewModal}
-        performance={selectedPerformance}
+        performance={selectedPerformance} 
         isAvaiable={isAvailable}
       />
     </div>

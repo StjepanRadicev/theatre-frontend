@@ -119,7 +119,9 @@ export const adminPerformanceTableColumn = (
     editable: false,
     headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
-    renderHeader: (params) => <span >Cijena (€)</span>
+    renderHeader: (params) => <span >Cijena (€)</span>,
+    valueFormatter: (value) =>
+        value == null ? "" : Number(value).toFixed(2),
   },
   {
     sortable: false,
@@ -238,7 +240,7 @@ export const adminPerformanceTableColumn = (
             onClick={() => handleImageUpload(params.row)}
             className='flex items-center bg-green-500 text-white px-4 h-9 rounded-md'>
               <FaImage className='mr-2'/>
-              Label
+              Fotografija
           </button>
           
           <button
@@ -254,18 +256,18 @@ export const adminPerformanceTableColumn = (
 ];
 
 export const adminOrderTableColumn = (handleEdit) => [
-  { 
-    sortable: false,
-    disableColumnMenu: true,
-    field: "id",
-    headerName: "orderId",
-    width: 180,
-    headerAlign: "center",
-    editable: false,
-    headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
-    cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
-    renderHeader: (params) => <span  className='text-center'>Order ID</span>
-   },
+  // { 
+  //   sortable: false,
+  //   disableColumnMenu: true,
+  //   field: "id",
+  //   headerName: "orderId",
+  //   width: 180,
+  //   headerAlign: "center",
+  //   editable: false,
+  //   headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
+  //   cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
+  //   renderHeader: (params) => <span  className='text-center'>Order ID</span>
+  //  },
   {
     sortable: false,
     disableColumnMenu: true,
@@ -281,7 +283,7 @@ export const adminOrderTableColumn = (handleEdit) => [
    },
   
   {
-    sortable: true,
+    sortable: false,
     disableColumnMenu: true,
     field: "totalAmount",
     headerName: "Total Amount",
@@ -290,7 +292,9 @@ export const adminOrderTableColumn = (handleEdit) => [
     editable: false,
     headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
-    renderHeader: (params) => <span >Total Amount</span>
+    renderHeader: (params) => <span >Ukupni Iznos (€)</span>,
+    valueFormatter: (value) =>
+        value == null ? "" : Number(value).toFixed(2),
   },
   {
     sortable: false,
@@ -314,7 +318,17 @@ export const adminOrderTableColumn = (handleEdit) => [
     editable: false,
     headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
-    renderHeader: (params) => <span >Order Date</span>
+    renderHeader: (params) => <span >Datum Rezervacije</span>,
+    valueFormatter: (value) =>
+        value
+            ? new Date(value).toLocaleString("hr-HR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+            })
+            : "",
   },
   // {
   //   sortable: false,

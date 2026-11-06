@@ -9,7 +9,7 @@ import { updateProductImageFromDashboard } from '../../../store/actions';
 const ImageUploadForm = ({ setOpen, performance }) => {
     const [loader, setLoader] = useState(false);
     const fileInputRef = useRef();
-    const [previewImage, setPreviewImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(performance?.image || null);
     const [selectedFile, setSelectedFile] = useState(null);
     const dispatch = useDispatch();
 
@@ -47,11 +47,14 @@ const ImageUploadForm = ({ setOpen, performance }) => {
     };
 
     const handleClearImage = () => {
-        setPreviewImage(null);
+        setPreviewImage(performance?.image || null);
         setSelectedFile(null);
-        fileInputRef.current.value = null;
-    };
 
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    };
+    
   return (
     <div className='py-5 relative h-full'>
         <form className='space-y-4' onSubmit={addNewImageHandler}>

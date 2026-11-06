@@ -44,7 +44,7 @@ const handleEdit = (order) => {
   return (
     <div>
        <h1 className='text-slate-800 text-3xl text-center font-bold pb-6 uppercase'>
-        Sve Narudžbe
+        Sve Rezervacije
       </h1>
         <div>
           <DataGrid

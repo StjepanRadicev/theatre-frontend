@@ -42,9 +42,11 @@ import { formatPrice } from "../../utils/formatPrice";
                 </div>
 
                 <div className="">
-                    <img src={image} 
-                        alt={performanceName} 
-                        className="md:h-36 sm:h-24 w-full object-cover rounded-md ml-3 mt-2 "/>
+                    <img
+                        src={image}
+                        alt={performanceName}
+                        className="max-w-full max-h-[144px] w-auto h-auto object-contain rounded-md ml-3 mt-2"
+                    />
                
 
                 <div className="flex items-start gap-5 mt-3">

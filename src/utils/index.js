@@ -32,12 +32,12 @@ export const bannerLists = [
 
 export const adminNavigation = [
   {
-    name: "Analitica",
+    name: "Analitika",
     href: "/admin",
     icon: FaHome,
     current: true
   },{
-    name: "Narudžbe",
+    name: "Rezervacije",
     href: "/admin/orders",
     icon: FaShoppingCart,
     current: true

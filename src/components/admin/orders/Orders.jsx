@@ -18,7 +18,7 @@ const Orders = () => {
         {emptyOrder ? (
             <div className='flex flex-col items-center justify-center text-gray-600 py-10'>
                 <FaShoppingCart size={50} className='mb-3'/>
-                <h2 className='text-2xl font-semibold'>Još nema izdanih narudžbi</h2>
+                <h2 className='text-2xl font-semibold'>Još nema izdanih rezervacija</h2>
             </div>
         ) : (
           <OrderTable adminOrders={adminOrders} pagination={pagination}/>

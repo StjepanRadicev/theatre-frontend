@@ -31,8 +31,11 @@ const InputField = ({
                     step={
                         id === "price" ? "0.01" :
                         id === "discount" ? "1" :
+                        id === "duration" ? "1" :
                         undefined
                     }
+                    min={id === "duration" ? 1 : undefined}
+                    max={id === "duration" ? 360 : undefined}
                     className={`${className || ""} w-full px-2 py-2 ${
                         suffix ? "pr-12" : ""
                     } border outline-none bg-transparent text-slate-800 rounded-md ${
@@ -70,21 +73,31 @@ const InputField = ({
 
                                 if (id === "price") {
                                     if (!/^\d+(\.\d{1,2})?$/.test(value)) {
-                                        return "Cijena mora biti broj s najviše dvije decimale";
+                                        return "Vrijednsot nije ispravna";
                                     }
 
                                     if (Number(value) <= 0) {
-                                        return "Cijena mora biti veća od 0";
+                                        return "Vrijednsot nije ispravna";
                                     }
                                 }
 
                                 if (id === "discount") {
                                     if (!/^\d+$/.test(value)) {
-                                        return "Popust mora biti cijeli broj";
+                                        return "Vrijednost nije ispravna";
                                     }
 
                                     if (Number(value) > 100) {
-                                        return "Popust ne može biti veći od 100%";
+                                        return "Vijednost nije ispravna";
+                                    }
+                                }
+
+                                if (id === "duration") {
+                                    if (!/^\d+$/.test(value)) {
+                                        return "Vrijednost nije ispravna";
+                                    }
+
+                                    if (Number(value) < 1 || Number(value) > 360) {
+                                        return "Trajanje mora biti između 1 i 360 minuta";
                                     }
                                 }
 

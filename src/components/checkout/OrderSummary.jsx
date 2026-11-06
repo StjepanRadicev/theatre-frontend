@@ -22,15 +22,17 @@ const OrderSummary = ({ totalPrice, cart, paymentMethod }) => {
                         <div className='space-y-2'>
                             {cart?.map((item) => (
                                 <div key={item?.performanceSeatId} className='flex items-center'>
-                                <img
-                                    src={
-                                        item?.image?.startsWith("http")
-                                            ? item.image
-                                            : `${import.meta.env.VITE_BACK_END_URL}/images/${item?.image}`
-                                    }
-                                    className="w-22 h-22 rounded m-5"
-                                    alt={item?.performanceName}
-                                />
+                                <div className="w-24 h-24 flex-shrink-0 flex items-center justify-center m-5">
+                                    <img
+                                        src={
+                                            item?.image?.startsWith("http")
+                                                ? item.image
+                                                : `${import.meta.env.VITE_BACK_END_URL}/images/${item?.image}`
+                                        }
+                                        className="max-w-full max-h-full w-auto h-auto object-contain rounded-md"
+                                        alt={item?.performanceName}
+                                    />
+                                </div>
                                 <div className='text-gray-500'>
                                     <p>{item?.performanceName}</p>
 

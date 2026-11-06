@@ -25,17 +25,15 @@ export default function PerformanceViewModal({open, setOpen, performance, isAvai
                     transition
                     className="w-full max-w-160  rounded-md bg-white p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
                     >
-                    {
-                        image && (
-                            <div className='flex justify-center aspect-3/2'>
-                                <img 
-                                    className="w-full h-full cursor-pointer transition-transform duration-300 transform hover:scale-105 rounded-md"
-                                    src={image}
-                                    alt={showName}>
-                                </img>
-                            </div>
-                        )
-                    }
+                   {image && (
+                        <div className="flex justify-center items-center w-full">
+                            <img
+                                src={image}
+                                alt={showName}
+                                className="max-w-full max-h-[350px] w-auto h-auto object-contain rounded-md"
+                            />
+                        </div>
+                    )}
                     <div className='px-6 pt-2 pb-2'>
                         <DialogTitle as="h3" className="text-2xl/loose  text-slate-800 font-montserrat flex justify-center">
                             {showName}
@@ -64,7 +62,7 @@ export default function PerformanceViewModal({open, setOpen, performance, isAvai
                             </div>
                         )}
 
-                        <div className='flex flex-col justify-between mr-2'>
+                        {/* <div className='flex flex-col justify-between mr-2'>
                             {isAvaiable ?  (
                                 <Status
                                     text="Dostupno"
@@ -80,7 +78,7 @@ export default function PerformanceViewModal({open, setOpen, performance, isAvai
                                     color="text-rose-700"
                             />)
                             }
-                        </div>
+                        </div> */}
                     </div>
 
                     <Divider />
