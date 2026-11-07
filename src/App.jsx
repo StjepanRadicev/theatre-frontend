@@ -18,6 +18,8 @@ import Dashboard from './components/admin/dashboard/Dashboard'
 import AdminPerformances from './components/admin/performances/AdminPerformances'
 import Orders from './components/admin/orders/Orders'
 import AdminShows from './components/admin/shows/AdminShows'
+import VerifyEmail from './components/auth/VerifyEmail'
+import ResendVerification from './components/auth/ResendVerification'
 
 
 function App() {
@@ -33,6 +35,9 @@ function App() {
             <Route path='/performances' element={ <Performances /> }/>
             <Route path='/about' element={ <About /> }/>
             <Route path='/cart' element={ <Cart /> }/>
+            <Route path='/verify-email' element={<VerifyEmail />} />
+            <Route path="/resend-verification" element={<ResendVerification />}
+/>
             
             <Route  element={<PrivateRoute /> }>
               <Route path='/checkout' element={ <Checkout /> }/>

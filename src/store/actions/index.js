@@ -122,11 +122,15 @@ export const authenticateSignInUser
         dispatch({ type: "LOGIN_USER", payload: data});
         localStorage.setItem("auth", JSON.stringify(data));
         reset();
-        toast.success("Login Success");
+        toast.success("Login Success",
+            { duration: 6000 }
+        );
         navigate("/");
     } catch (error) {
         console.log(error);
-        toast.error(error?.response?.data?.message || "Internal Server Error"); 
+        toast.error(error?.response?.data?.message || "Internal Server Error",
+             { duration: 6000 }
+        ); 
     } finally {
         setLoader(false);
     }
@@ -142,8 +146,17 @@ export const registerNewUser
         const { data } = await api.post("/auth/signup", sendData);
 
         reset();
-        toast.success(data?.message || "User registered successfully");
-        navigate("/login");
+
+        toast.success(
+            "Registracija je uspješna! Molim provjerite vaš email zbog verifikacije računa.",
+            { duration: 6000 }
+        );
+
+        navigate("/login", {
+            state: {
+                registrationSuccess: true
+            }
+        });
 
     } catch (error) {
         console.log(error);

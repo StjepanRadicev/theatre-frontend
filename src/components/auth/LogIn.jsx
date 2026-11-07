@@ -82,11 +82,21 @@ const LogIn = () => {
                     <p className="text-center text-sm text-slate-700 mt-6">
                         Joše nemate račun?
                         <Link
-                            className="font-semibold underline hover:text-black"
+                            className="text-center text-sm text-slate-700 mt-6 underline hover:text-black hover:font-semibold"
                             to="/register">
                         <span>  Registracija</span></Link>
                     </p>
+
+                     <div className="text-center text-sm text-slate-700 mt-6">
+                        <Link
+                            to="/resend-verification"
+                            className="text-center text-sm text-slate-700 mt-6 underline hover:text-black hover:font-semibold"
+                        >
+                            Niste primili e-poruku za potvrdu ?
+                        </Link>
+                    </div>
             </form>
+           
         </div>
     );
 }
