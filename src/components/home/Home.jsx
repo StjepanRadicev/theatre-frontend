@@ -15,9 +15,9 @@ const Home = () => {
         (state) => state.performances
     )
 
-    const {isLoading, errorMessage} = useSelector(
-        (state) => state.errors
-    );
+    const { isLoading, errorMessage, isWaking } = useSelector(
+    (state) => state.errors
+);
 
      useEffect(() => {
             dispatch(fetchPerformances());
@@ -40,7 +40,14 @@ const Home = () => {
                 </div>
 
                 {isLoading ? (
-                    <Loader />
+                    <div className="flex flex-col items-center space-y-3">
+                        <Loader />
+                        {isWaking && (
+                            <p className="text-slate-300 text-center">
+                                Server se pokreće (besplatni hosting), molimo pričekajte do minute...
+                            </p>
+                        )}
+                    </div>
                 ) : errorMessage ? (
                     <div className="flex justify-center items-center h-50">
                         <FaExclamationTriangle className="text-slate-900 text-3xl mr-2"/>

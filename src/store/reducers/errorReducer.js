@@ -1,4 +1,4 @@
-import { fetchCategories } from "../actions";
+
 
 const initialState = {
     isLoading: false,
@@ -6,6 +6,7 @@ const initialState = {
     categoryLoader: false,
     categoryError: null,
     btnLoader: false,
+    isWaking: false,
 };
 
 export const errorReducer = (state = initialState, action) => {
@@ -15,6 +16,13 @@ export const errorReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: true,
                 errorMessage: null,
+                isWaking: false,
+            };
+
+         case "SERVER_WAKING":
+            return {
+                ...state,
+                isWaking: true,
             };
 
         case "BUTTON_LOADER":
@@ -32,7 +40,8 @@ export const errorReducer = (state = initialState, action) => {
                 errorMessage: null,
                 btnLoader: false,
                 categoryError: null,
-                categoryLoader: false
+                categoryLoader: false,
+                isWaking: false,  
             };
 
         case "IS_ERROR":
@@ -42,6 +51,7 @@ export const errorReducer = (state = initialState, action) => {
             errorMessage: action.payload,
             btnLoader: false,
             categoryLoader: false,
+            isWaking: false,
         };
 
         case "CATEGORY_SUCCESS":

@@ -2,33 +2,93 @@ import { data, Navigate } from "react-router-dom";
 import api from "../../api/api";
 import toast from "react-hot-toast";
 
+
+
+
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 8000;
+const REQUEST_TIMEOUT_MS = 60000;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Greške koje upućuju na to da se server još budi (nema odgovora ili 502/503/504)
+const isServerWakingError = (error) => {
+    if (!error.response) return true; // timeout, network error, CORS greška od gatewaya
+    return [502, 503, 504].includes(error.response.status);
+};
+
 export const fetchPerformances = (queryString) => async (dispatch) => {
-    try {
-        dispatch({ type: "IS_FETCHING" });
+    dispatch({ type: "IS_FETCHING" });
 
-        const url = queryString
-            ? `/public/performances/all?${queryString}`
-            : `/public/performances/all`;
+    const url = queryString
+        ? `/public/performances/all?${queryString}`
+        : `/public/performances/all`;
 
-        const { data } = await api.get(url);
-        dispatch({
-            type: "FETCH_PERFORMANCES",
-            payload: data.content,
-            pageNumber: data.pageNumber,
-            pageSize: data.pageSize,
-            totalElements: data.totalElements,
-            totalPages: data.totalPages,
-            lastPage: data.lastPage,
-        });
-        dispatch({ type: "IS_SUCCESS" });
-    } catch (error) {
-        console.log(error);
-        dispatch({ type: "IS_ERROR",
-                    payload: error?.response?.data?.message || "Failed to fetch performances",
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        try {
+            const { data } = await api.get(url, { timeout: REQUEST_TIMEOUT_MS });
 
-         });
+            dispatch({
+                type: "FETCH_PERFORMANCES",
+                payload: data.content,
+                pageNumber: data.pageNumber,
+                pageSize: data.pageSize,
+                totalElements: data.totalElements,
+                totalPages: data.totalPages,
+                lastPage: data.lastPage,
+            });
+            dispatch({ type: "IS_SUCCESS" });
+            return;
+        } catch (error) {
+            console.log(`Pokušaj ${attempt} neuspješan`, error);
+
+            const canRetry = isServerWakingError(error) && attempt < MAX_RETRIES;
+            if (canRetry) {
+                dispatch({ type: "SERVER_WAKING" }); // za poruku korisniku
+                await sleep(RETRY_DELAY_MS);
+                continue;
+            }
+
+            dispatch({
+                type: "IS_ERROR",
+                payload:
+                    error?.response?.data?.message ||
+                    (isServerWakingError(error)
+                        ? "Server se pokreće, pokušajte ponovno za minutu."
+                        : "Failed to fetch performances"),
+            });
+            return;
+        }
     }
 };
+
+// export const fetchPerformances = (queryString) => async (dispatch) => {
+//     try {
+//         dispatch({ type: "IS_FETCHING" });
+
+//         const url = queryString
+//             ? `/public/performances/all?${queryString}`
+//             : `/public/performances/all`;
+
+//         const { data } = await api.get(url);
+//         dispatch({
+//             type: "FETCH_PERFORMANCES",
+//             payload: data.content,
+//             pageNumber: data.pageNumber,
+//             pageSize: data.pageSize,
+//             totalElements: data.totalElements,
+//             totalPages: data.totalPages,
+//             lastPage: data.lastPage,
+//         });
+//         dispatch({ type: "IS_SUCCESS" });
+//     } catch (error) {
+//         console.log(error);
+//         dispatch({ type: "IS_ERROR",
+//                     payload: error?.response?.data?.message || "Failed to fetch performances",
+
+//          });
+//     }
+// };
 
 export const fetchCategories = (queryString) => async (dispatch) => {
     try {

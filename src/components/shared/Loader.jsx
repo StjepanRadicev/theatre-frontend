@@ -13,7 +13,7 @@ const Loader = ({ text }) => {
                     wrapperClass="dna-wrapper"
                 />
                 <p className="text-slate-200">
-                    {text ? text : "Please wait..."}
+                    {text ? text : "Molimo pričekajte..."}
                 </p>
             </div>
         </div>
