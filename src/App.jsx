@@ -20,6 +20,8 @@ import Orders from './components/admin/orders/Orders'
 import AdminShows from './components/admin/shows/AdminShows'
 import VerifyEmail from './components/auth/VerifyEmail'
 import ResendVerification from './components/auth/ResendVerification'
+import AdminUsers from './components/admin/users/AdminUsers';
+import AdminUserOrders from "./components/admin/users/AdminUserOrders";
 
 
 function App() {
@@ -55,6 +57,8 @@ function App() {
                 <Route path='orders' element={ <Orders />} />
                 <Route path='performances' element={ <AdminPerformances />} />
                 <Route path='shows' element={ <AdminShows />} />
+                <Route path='users' element={<AdminUsers />} />
+                <Route path="users/:userId/orders" element={<AdminUserOrders />} />
               </Route>
             </Route>
             

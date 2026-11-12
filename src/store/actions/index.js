@@ -602,6 +602,69 @@ export const analyticsAction = () => async (dispatch, getState) => {
 
 
 
+export const monthlyRevenueAction = () => async (dispatch) => {
+    try {
+        const { data } = await api.get(
+            "/admin/app/analytics/revenue"
+        );
+
+        dispatch({
+            type: "FETCH_MONTHLY_REVENUE",
+            payload: data,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: "IS_ERROR",
+            payload:
+                error?.response?.data?.message ||
+                "Failed to fetch monthly revenue",
+        });
+    }
+};
+
+
+
+export const showOccupancyAction = () => async (dispatch) => {
+    try {
+        const { data } = await api.get("/admin/app/analytics/occupancy");
+
+        dispatch({
+            type: "FETCH_SHOW_OCCUPANCY",
+            payload: data
+        });
+
+    } catch (error) {
+        dispatch({
+            type: "IS_ERROR",
+            payload: error?.response?.data?.message ||
+                "Failed to fetch show occupancy"
+        });
+    }
+};
+
+
+
+export const monthlySoldTicketsAction = () => async (dispatch) => {
+    try {
+        const { data } = await api.get("/admin/app/analytics/tickets");
+
+        dispatch({
+            type: "FETCH_MONTHLY_SOLD_TICKETS",
+            payload: data
+        });
+
+    } catch (error) {
+        dispatch({
+            type: "IS_ERROR",
+            payload: error?.response?.data?.message ||
+                "Failed to fetch monthly sold tickets"
+        });
+    }
+};
+
+
+
 export const getOrdersForDashboard = (queryString) => async (dispatch) => {
     try {
         dispatch({ type: "IS_FETCHING" });
@@ -624,6 +687,37 @@ export const getOrdersForDashboard = (queryString) => async (dispatch) => {
                     payload: error?.response?.data?.message || "Failed to fetch orders data",
 
          });
+    }
+};
+
+export const getOrdersByUserId = (userId, queryString) => async (dispatch) => {
+    try {
+        dispatch({ type: "IS_FETCHING" });
+
+        const { data } = await api.get(
+            `/admin/users/${userId}/orders?${queryString}`
+        );
+
+        dispatch({
+            type: "GET_USER_ORDERS",
+            payload: data.content,
+            pageNumber: data.pageNumber,
+            pageSize: data.pageSize,
+            totalElements: data.totalElements,
+            totalPages: data.totalPages,
+            lastPage: data.lastPage,
+        });
+
+        dispatch({ type: "IS_SUCCESS" });
+
+    } catch (error) {
+        console.log(error);
+
+        dispatch({
+            type: "IS_ERROR",
+            payload: error?.response?.data?.message ||
+                "Dohvat narudžbi korisnika nije uspio.",
+        });
     }
 };
 
@@ -866,3 +960,123 @@ export const updateShowFromDashboard =
     };
 
 
+    export const dashboardUsersAction = (queryString) => async (dispatch) => {
+    try {
+        dispatch({ type: "IS_FETCHING" });
+
+        const url = queryString
+            ? `/admin/users?${queryString}`
+            : `/admin/users`;
+
+        const { data } = await api.get(url);
+
+        dispatch({
+            type: "FETCH_USERS",
+            payload: data.content,
+            pageNumber: data.number,
+            pageSize: data.size,
+            totalElements: data.totalElements,
+            totalPages: data.totalPages,
+            lastPage: data.last,
+        });
+
+        dispatch({ type: "IS_SUCCESS" });
+
+    } catch (error) {
+        console.log(error);
+
+        dispatch({
+            type: "IS_ERROR",
+            payload: error?.response?.data?.message
+                || "Dohvat korisnika nije uspio.",
+        });
+    }
+};
+
+
+
+export const deleteAdminUser = (userId) => async (dispatch) => {
+    try {
+        await api.delete(`/admin/users/${userId}`);
+
+        toast.success("Korisnik je uspješno obrisan.");
+
+        return true;
+
+    } catch (error) {
+        const message =
+            error?.response?.data?.message ||
+            "Brisanje korisnika nije uspjelo.";
+
+        toast.error(message);
+
+        return false;
+    }
+};
+
+
+export const deletePerformance = (
+    toast,
+    performanceId,
+    setOpenDeleteModal,
+    queryString
+) => async (dispatch) => {
+    try {
+        dispatch({ type: "BUTTON_LOADER" });
+
+        await api.delete(`/admin/performance/${performanceId}`);
+
+        dispatch({ type: "IS_SUCCESS" });
+
+        toast.success(
+            "Izvedba je uspješno obrisana.",
+            { duration: 6000 }
+        );
+
+        dispatch(dashboardPerformancesAction(queryString));
+
+    } catch (error) {
+        console.error(error);
+
+        dispatch({ type: "IS_ERROR" });
+
+        toast.error(
+            error?.response?.data?.message ||
+            "Greška prilikom brisanja izvedbe."
+        );
+    } finally {
+        setOpenDeleteModal(false);
+    }
+};
+
+
+export const deleteShow = (
+    toast,
+    showId,
+    setOpenDeleteModal,
+    queryString
+) => async (dispatch) => {
+    try {
+        dispatch({ type: "BUTTON_LOADER" });
+
+        await api.delete(`/admin/show/${showId}`);
+
+        dispatch({ type: "IS_SUCCESS" });
+
+        toast.success("Predstava je uspješno obrisana.");
+
+        dispatch(fetchAllShows(queryString));
+
+    } catch (error) {
+        console.error(error);
+
+        dispatch({ type: "IS_ERROR" });
+
+        toast.error(
+            error?.response?.data?.message ||
+            "Greška prilikom brisanja predstave."
+        );
+    } finally {
+        setOpenDeleteModal(false);
+    }
+};

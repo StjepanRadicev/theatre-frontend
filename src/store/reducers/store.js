@@ -9,6 +9,7 @@ import adminReducer from "./adminReducer";
 import { orderReducer } from "./orderReducer";
 import showReducer from "./showReducer";
 import hallReducer from "./hallReducer";
+import { userReducer } from "./userReducer";
 
 
 
@@ -38,9 +39,10 @@ export const store = configureStore({
         auth: authReducer,
         payment: paymentMethodReducer,
         admin: adminReducer,
-        order: orderReducer,
+        orders: orderReducer,
         shows: showReducer,
         halls: hallReducer,
+        users: userReducer,
     },
     preloadedState: initialState,
 });

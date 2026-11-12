@@ -1,10 +1,11 @@
-import { FaEdit, FaEye, FaImage, FaTrashAlt } from "react-icons/fa";
+import { FaEdit, FaEye, FaImage, FaTrash, FaTrashAlt } from "react-icons/fa";
 
 
 
 export const adminShowTableColumn = (
   handleEdit,
   handleShowView,
+  handleDelete
 ) => [
   
     {
@@ -52,7 +53,7 @@ export const adminShowTableColumn = (
       headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
       cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
       sortable: false,
-      width: 250,
+      width: 370,
       renderHeader: (params) => <span >Radnje</span>,
       renderCell: (params) => {
         return (
@@ -69,6 +70,13 @@ export const adminShowTableColumn = (
               <FaEye className='mr-2'/>
               Prikaži
           </button>
+          <button
+            onClick={() => handleDelete(params.row)}
+            className="flex items-center bg-red-500 hover:bg-red-600 text-white px-4 h-9 rounded-md"
+        >
+            <FaTrash className="mr-2" />
+            Obriši
+        </button>
         </div>
       )
     }
@@ -82,7 +90,8 @@ export const adminShowTableColumn = (
 export const adminPerformanceTableColumn = (
   handleEdit,
   handleImageUpload,
-  handlePerformanceView
+  handlePerformanceView,
+  handleDelete
 ) => [
   // { 
   //   sortable: false,
@@ -225,7 +234,7 @@ export const adminPerformanceTableColumn = (
     headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
     sortable: false,
-    width: 350,
+    width: 460,
     renderHeader: (params) => <span >Radnje</span>,
     renderCell: (params) => {
       return (
@@ -249,6 +258,15 @@ export const adminPerformanceTableColumn = (
               <FaEye className='mr-2'/>
               Prikaži
           </button>
+          {params.row.status === "DRAFT" && (
+            <button
+              onClick={() => handleDelete(params.row)}
+              className="flex items-center bg-red-500 hover:bg-red-600 text-white px-4 h-9 rounded-md"
+            >
+              <FaTrash className="mr-2" />
+              Obriši
+            </button>
+          )}
         </div>
       )
     }
@@ -353,4 +371,117 @@ export const adminOrderTableColumn = (handleEdit) => [
   //     )
   //   }
   // },
+
+  
+];
+
+
+export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
+  
+    {
+        sortable: false,
+        disableColumnMenu: true,
+        field: "userName",
+        headerName: "Korisničko ime",
+        flex: 1,
+        minWidth: 150,
+        headerAlign: "center",
+        align: "center",
+    },
+    {
+        sortable: false,
+        disableColumnMenu: true,
+        field: "email",
+        headerName: "E-mail adresa",
+        flex: 1.5,
+        minWidth: 220,
+        headerAlign: "center",
+        align: "center",
+    },
+    {
+        sortable: false,
+        disableColumnMenu: true,
+        field: "emailVerified",
+        headerName: "Verifikacija",
+        flex: 1,
+        minWidth: 130,
+        headerAlign: "center",
+        align: "center",
+        renderCell: (params) => (
+            <span
+                className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    params.value
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                }`}
+            >
+                {params.value ? "Verificiran" : "Nije verificiran"}
+            </span>
+        ),
+    },
+    {
+        sortable: false,
+        disableColumnMenu: true,
+        field: "roles",
+        headerName: "Uloga",
+        flex: 1,
+        minWidth: 130,
+        headerAlign: "center",
+        align: "center",
+        renderCell: (params) => {
+            const roleNames = {
+                ROLE_USER: "Korisnik",
+                ROLE_ADMIN: "Administrator",
+                ROLE_SELLER: "Prodavač",
+            };
+
+            return (
+                <span>
+                    {(params.value || [])
+                        .map((role) => roleNames[role] || role)
+                        .join(", ")}
+                </span>
+            );
+        },
+    },
+    
+{
+    sortable: false,
+    disableColumnMenu: true,
+    field: "actions",
+    headerName: "Radnje",
+    flex: 1,
+    minWidth: 280,
+    headerAlign: "center",
+    align: "center",
+    renderCell: (params) => (
+        <div className="flex items-center justify-center gap-2 h-full">
+
+            <button
+                onClick={() =>
+                    handleViewOrders(params.row.id, params.row.userName)
+                }
+                className="flex items-center bg-blue-500 text-white px-4 h-9 rounded-md"
+            >
+                <FaEye className="mr-2" />
+                Rezervacije
+            </button>
+
+            {/* {!params.row.emailVerified && (
+                <button
+                    onClick={() =>
+                        handleDeleteUser(params.row.id, params.row.userName)
+                    }
+                    className="flex items-center bg-red-500 text-white px-4 h-9 rounded-md"
+                >
+                    <FaTrash className="mr-2" />
+                    Obriši
+                </button>
+            )} */}
+
+        </div>
+    ),
+},
+
+  
 ];

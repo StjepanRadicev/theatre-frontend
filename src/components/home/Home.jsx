@@ -44,7 +44,7 @@ const Home = () => {
                         <Loader />
                         {isWaking && (
                             <p className="text-slate-300 text-center">
-                                Server se pokreće (besplatni hosting), molimo pričekajte do minute...
+                                Server se pokreće, molimo pričekajte...
                             </p>
                         )}
                     </div>

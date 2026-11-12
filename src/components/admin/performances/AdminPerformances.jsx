@@ -2,7 +2,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import React, { useState } from 'react'
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
 import { FaBoxOpen } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import { adminOrderTableColumn, adminPerformanceTableColumn } from '../../helper/tableColumn';
 import { useDashboardPerformanceFilter } from '../../../hooks/usePerformanceFilter';
 import Loader from '../../shared/Loader';
@@ -13,6 +13,7 @@ import ImageUploadForm from './ImageUploadForm';
 import PerformanceViewModal from '../../shared/PerformanceViewModal';
 import Status from '../../shared/Status';
 import toast from 'react-hot-toast';
+import { deletePerformance } from '../../../store/actions';
 
 
 const AdminPerformances = () => {
@@ -38,6 +39,9 @@ const AdminPerformances = () => {
 
   const [openPerformanceViewModal, setOpenPerformanceViewModal] = useState(false);
 
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [performanceToDelete, setPerformanceToDelete] = useState(null);
+
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -45,6 +49,7 @@ const AdminPerformances = () => {
 
   useDashboardPerformanceFilter();
 
+  const dispatch = useDispatch();
   
 
   const tableRecords = performances?.map((item) => {
@@ -78,7 +83,7 @@ const AdminPerformances = () => {
     const description = selectedPerformance?.description;
 
   const handleEdit = (performance) => {
-      if (Number(performance.soldSeats) > 0) {
+      if (Number(performance.soldSeats) > 0 || performance.status == "FINISHED" || performance.status == "SOLD_OUT" ) {
           toast.error(
               "Ažuriranje nije moguće jer izvedba ima prodane ili rezervirane ulaznice."
           );
@@ -87,6 +92,36 @@ const AdminPerformances = () => {
 
       setSelectedPerformance(performance);
       setOpenUpdateModal(true);
+  };
+
+
+  const handleDelete = (performance) => {
+      if (performance.status !== "DRAFT") {
+          toast.error("Brisanje je dopušteno samo za SKICA izvedbe.");
+          return;
+      }
+
+      setPerformanceToDelete(performance);
+      setOpenDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+      if (!performanceToDelete) return;
+
+      const params = new URLSearchParams();
+
+      const currentPage = Number(searchParams.get("page") || 1);
+
+      params.set("pageNumber", String(currentPage - 1));
+
+      dispatch(
+          deletePerformance(
+              toast,
+              performanceToDelete.id,
+              setOpenDeleteModal,
+              params.toString()
+          )
+      );
   };
 
 
@@ -148,7 +183,8 @@ const AdminPerformances = () => {
                   columns={adminPerformanceTableColumn(
                     handleEdit,
                     handleImageUpload,
-                    handlePerformanceView
+                    handlePerformanceView,
+                    handleDelete
                   )}
                   loading={isLoading}
                   paginationMode='server'
@@ -200,6 +236,51 @@ const AdminPerformances = () => {
             setOpen={setOpenImageUploadModal}
             performance={selectedPerformance}
           />
+      </Modal>
+
+      <Modal
+          open={openDeleteModal}
+          setOpen={setOpenDeleteModal}
+          title="Potvrda brisanja"
+      >
+          <div className="space-y-5">
+              <p className="text-gray-700">
+                  Jeste li sigurni da želite obrisati izvedbu
+                  <span className="font-semibold">
+                      {" "}{performanceToDelete?.showName}
+                      {" "}
+                          {performanceToDelete?.localDateTime
+                              ? new Date(performanceToDelete.localDateTime).toLocaleString("hr-HR", {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                              })
+                              : ""}
+                  </span>?
+              </p>
+
+              <p className="text-sm text-red-600">
+                  Ova radnja je nepovratna.
+              </p>
+
+              <div className="flex justify-end gap-3">
+                  <button
+                      onClick={() => setOpenDeleteModal(false)}
+                      className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
+                  >
+                      Odustani
+                  </button>
+
+                  <button
+                      onClick={handleConfirmDelete}
+                      className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
+                  >
+                      Obriši
+                  </button>
+              </div>
+          </div>
       </Modal>
 
       <PerformanceViewModal 

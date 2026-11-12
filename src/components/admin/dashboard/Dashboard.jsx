@@ -1,23 +1,39 @@
 import React, { useEffect } from 'react'
 import DashboarsOverview from './DashboarsOverview'
-import { FaBoxOpen, FaShoppingCart } from 'react-icons/fa'
+import { FaBoxOpen, FaShoppingCart,  FaTicketAlt } from 'react-icons/fa'
 import { RiMoneyEuroCircleFill, RiMoneyEuroCircleLine } from "react-icons/ri";
 import { useDispatch, useSelector } from 'react-redux';
-import { analyticsAction } from '../../../store/actions';
+import { analyticsAction, monthlyRevenueAction, showOccupancyAction, monthlySoldTicketsAction } from '../../../store/actions';
 import { LoaderIcon } from 'react-hot-toast';
+import MonthlyRevenueChart from "./MonthlyRevenueChart";
+import ShowOccupancyChart from "./ShowOccupancyChart";
+import MonthlySoldTicketsChart from "./MonthlySoldTicketsChart";
 
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { isLoading, errorMessage } = useSelector((state) => state.errors); 
 
-  const { 
-    analytics: { performanceCount, totalRevenue, totalOrders } 
+  const {
+      analytics: {
+          performanceCount,
+          totalRevenue,
+          totalOrders,
+          totalSoldTickets
+      },
+      monthlyRevenue,
+      monthlySoldTickets,
+      showOccupancy
   } = useSelector((state) => state.admin);
 
+
+
   useEffect(() => {
-    dispatch(analyticsAction());
-  }, [dispatch])
+      dispatch(analyticsAction());
+      dispatch(monthlyRevenueAction());
+      dispatch(showOccupancyAction());
+      dispatch(monthlySoldTicketsAction());
+  }, [dispatch]);
 
 
   if (isLoading) {
@@ -30,9 +46,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div className='flex md:flex-row mt-8 flex-col lg:justify-between
-                border border-slate-400 rounded-lg bg-linear-to-r
-                 from-blue-50 toblue-100 shadow'  >
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
                 <DashboarsOverview 
                   title="Ukupno Izvedbi"
                   amount={performanceCount}
@@ -40,10 +54,16 @@ const Dashboard = () => {
                 />
 
                 <DashboarsOverview 
-                  title="Ukupno Narudžbi"
+                  title="Ukupno Rezervacija"
                   amount={totalOrders}
                   Icon={FaShoppingCart}
                 />
+
+                <DashboarsOverview
+                  title="Prodane ulaznice"
+                  amount={totalSoldTickets}
+                  Icon={FaTicketAlt}
+              />
 
                 <DashboarsOverview 
                   title="Ukupan Prihod"
@@ -51,7 +71,18 @@ const Dashboard = () => {
                   Icon={RiMoneyEuroCircleFill}
                   revenue
                 />
+
+               
       </div>
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <MonthlyRevenueChart monthlyRevenue={monthlyRevenue} />
+
+        <MonthlySoldTicketsChart
+            monthlySoldTickets={monthlySoldTickets}
+        />
+    </div>
+
+      <ShowOccupancyChart showOccupancy={showOccupancy} />
     </div>
   )
 }
