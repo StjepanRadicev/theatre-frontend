@@ -5,6 +5,7 @@ import { Button } from '@mui/material';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProductImageFromDashboard } from '../../../store/actions';
+import { useSearchParams } from "react-router-dom";
 
 const ImageUploadForm = ({ setOpen, performance }) => {
     const [loader, setLoader] = useState(false);
@@ -12,6 +13,7 @@ const ImageUploadForm = ({ setOpen, performance }) => {
     const [previewImage, setPreviewImage] = useState(performance?.image || null);
     const [selectedFile, setSelectedFile] = useState(null);
     const dispatch = useDispatch();
+    const [searchParams] = useSearchParams();
 
     const { user } = useSelector((state) => state.auth);
     const isAdmin = user && user?.roles?.includes("ROLE_ADMIN");
@@ -43,7 +45,22 @@ const ImageUploadForm = ({ setOpen, performance }) => {
         const formData = new FormData();
         formData.append("image", selectedFile);
 
-        dispatch(updateProductImageFromDashboard(formData, performance.id, toast, setLoader, setOpen, isAdmin));
+        const currentPage = Number(searchParams.get("page") || 1);
+
+        const params = new URLSearchParams();
+        params.set("pageNumber", String(currentPage - 1));
+
+        dispatch(
+            updateProductImageFromDashboard(
+                formData,
+                performance.id,
+                toast,
+                setLoader,
+                setOpen,
+                isAdmin,
+                params.toString()
+            )
+        );
     };
 
     const handleClearImage = () => {

@@ -55,7 +55,7 @@ export const fetchPerformances = (queryString) => async (dispatch) => {
                     error?.response?.data?.message ||
                     (isServerWakingError(error)
                         ? "Server se pokreće, pokušajte ponovno za minutu."
-                        : "Failed to fetch performances"),
+                        : "Neuspjeh dohavta Izvedbi"),
             });
             return;
         }
@@ -107,7 +107,7 @@ export const fetchCategories = (queryString) => async (dispatch) => {
     } catch (error) {
         console.log(error);
         dispatch({ type: "IS_ERROR",
-                    payload: error?.response?.data?.message || "Failed to fetch category",
+                    payload: error?.response?.data?.message || "Neuspjeh dohvata Kategorija",
 
          });
     }
@@ -155,7 +155,7 @@ export const addToCart = (data, qty = 1, toast) =>
   });
 
 
-  toast.success(`${data?.rowLabel} ${data?.seatNumber} added to the cart`);
+  toast.success(`${data?.rowLabel} ${data?.seatNumber} dodano u košaricu`);
 
   localStorage.setItem(
     "cartItems",
@@ -167,7 +167,7 @@ export const addToCart = (data, qty = 1, toast) =>
 
 export const removeFromCart = (data, toast) => (dispatch, getState) => {
     dispatch({type: "REMOVE_CART", payload: data});
-    toast.success(`${data.performanceName} ${data.section} removed from cart`);
+    toast.success(`${data.performanceName} ${data.section} obrisano iz košarice`);
 
      localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
 }
@@ -182,13 +182,13 @@ export const authenticateSignInUser
         dispatch({ type: "LOGIN_USER", payload: data});
         localStorage.setItem("auth", JSON.stringify(data));
         reset();
-        toast.success("Login Success",
+        toast.success("Prijava je uspješna",
             { duration: 6000 }
         );
         navigate("/");
     } catch (error) {
         console.log(error);
-        toast.error(error?.response?.data?.message || "Internal Server Error",
+        toast.error(error?.response?.data?.message || "Interna pogreška poslužitelja",
              { duration: 6000 }
         ); 
     } finally {
@@ -235,7 +235,7 @@ export const registerNewUser
         } else {
             toast.error(
                 error?.response?.data?.message ||
-                "Internal Server Error"
+                "Interna pogreška poslužitelja"
             );
         }
 
@@ -290,7 +290,7 @@ export const addUpdateUserAddress =
         dispatch({ type:"IS_SUCCESS"});
     } catch (error) {
         console.log(error);
-        toast.error(error?.response?.data?.message || "Internal Server Error"); 
+        toast.error(error?.response?.data?.message || "Interna pogreška poslužitelja"); 
         dispatch({ type: "IS_ERROR", payload: null });
 
     } finally {
@@ -381,7 +381,7 @@ export const createUserCart = (sendCartItems) => async (dispatch, getState) => {
         
         dispatch({
             type: "IS_ERROR",
-            payload: error?.response?.data?.message || "Failed to create cart items",
+            payload: error?.response?.data?.message || "Nije uspjelo dodavanje stavki u košaricu",
         });
 
         return false;
@@ -429,7 +429,7 @@ export const getUserCart = () => async (dispatch, getState) => {
     } catch (error) {
         console.log(error);
         dispatch({ type: "IS_ERROR",
-                    payload: error?.response?.data?.message || "Failed to fetch cart items",
+                    payload: error?.response?.data?.message || "Nije uspio dohvat stavki iz košarice",
 
          });
 
@@ -574,7 +574,7 @@ export const cancelCheckout = () => async (dispatch) => {
             type: "IS_ERROR",
             payload:
                 error?.response?.data?.message ||
-                "Failed to cancel checkout",
+                "Nije uspjelo otkazivanje Naplate",
         });
 
         return false;
@@ -595,7 +595,7 @@ export const analyticsAction = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
              type: "IS_ERROR",
-             payload: error?.response?.data?.message || "Failed to fetch analytics data",
+             payload: error?.response?.data?.message || "Nije uspjelo dohvačanje podatka Analitike",
             });
     }
 };
@@ -745,7 +745,7 @@ export const dashboardPerformancesAction = (queryString) => async (dispatch) => 
     } catch (error) {
         console.log(error);
         dispatch({ type: "IS_ERROR",
-                    payload: error?.response?.data?.message || "Failed to fetch performances",
+                    payload: error?.response?.data?.message || "Nije uspjelo dohvačanje Izvedbi",
 
          });
     }
@@ -876,21 +876,29 @@ export const addPerformanceFromDashboard =
 
 
 
-    export const updateProductImageFromDashboard = 
-    (formData, performanceId, toast, setLoader, setOpen, isAdmin) => async (dispatch) => {
-    try {
-        setLoader(true);
-        const endpoint = isAdmin ? "/performances/" : "/seller/products/";
-        await api.put(`${endpoint}${performanceId}/image`, formData);
-        toast.success("Fotografija je uspješno dodana.");
-        setLoader(false);
-        setOpen(false);
-        await dispatch(dashboardPerformancesAction());
-    } catch (error) {
-        toast.error(error?.response?.data?.description || "Greška prilikom dodavanja.");
-     
-    }
-};
+    export const updateProductImageFromDashboard =
+        (formData, performanceId, toast, setLoader, setOpen, isAdmin, queryString) => async (dispatch) => {
+        try {
+            setLoader(true);
+
+            const endpoint = isAdmin ? "/performances/" : "/seller/products/";
+
+            await api.put(`${endpoint}${performanceId}/image`, formData);
+
+            toast.success("Fotografija je uspješno dodana.");
+            setOpen(false);
+
+            await dispatch(dashboardPerformancesAction(queryString));
+
+        } catch (error) {
+            toast.error(
+                error?.response?.data?.description ||
+                "Greška prilikom dodavanja."
+            );
+        } finally {
+            setLoader(false);
+        }
+    };
 
 
 

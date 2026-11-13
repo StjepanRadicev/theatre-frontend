@@ -17,6 +17,7 @@ export const adminShowTableColumn = (
         align: "center",
         sortable: false,
         disableColumnMenu: true,
+        headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     },
     {
         field: "duration",
@@ -26,6 +27,7 @@ export const adminShowTableColumn = (
         align: "center",
         sortable: false,
         disableColumnMenu: true,
+        headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     },
     {
         field: "description",
@@ -35,6 +37,7 @@ export const adminShowTableColumn = (
         headerAlign: "center",
         sortable: false,
         disableColumnMenu: true,
+        headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     },
     {
         field: "categoryName",
@@ -44,6 +47,7 @@ export const adminShowTableColumn = (
         align: "center",
         sortable: false,
         disableColumnMenu: true,
+        headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     },
     {
       field: "action",
@@ -53,6 +57,8 @@ export const adminShowTableColumn = (
       headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
       cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
       sortable: false,
+      filterable: true,
+      disableColumnMenu: false,
       width: 370,
       renderHeader: (params) => <span >Radnje</span>,
       renderCell: (params) => {
@@ -326,7 +332,7 @@ export const adminOrderTableColumn = (handleEdit) => [
     cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
     renderHeader: (params) => <span >Status</span>
   },
-  {
+  { 
     sortable: false,
     disableColumnMenu: true,
     field: "date",
@@ -387,6 +393,7 @@ export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
         minWidth: 150,
         headerAlign: "center",
         align: "center",
+        headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     },
     {
         sortable: false,
@@ -397,6 +404,7 @@ export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
         minWidth: 220,
         headerAlign: "center",
         align: "center",
+        headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     },
     {
         sortable: false,
@@ -407,6 +415,7 @@ export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
         minWidth: 130,
         headerAlign: "center",
         align: "center",
+        headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
         renderCell: (params) => (
             <span
                 className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -428,6 +437,7 @@ export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
         minWidth: 130,
         headerAlign: "center",
         align: "center",
+        headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
         renderCell: (params) => {
             const roleNames = {
                 ROLE_USER: "Korisnik",
@@ -454,6 +464,7 @@ export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
     minWidth: 280,
     headerAlign: "center",
     align: "center",
+    headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
     renderCell: (params) => (
         <div className="flex items-center justify-center gap-2 h-full">
 

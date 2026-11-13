@@ -46,10 +46,10 @@ const AdminUserOrders = () => {
     const columns = [
         ...adminOrderTableColumn(),
         {
-            field: "actions",
+            field: "action",
             headerName: "Radnje",
             sortable: false,
-            disableColumnMenu: true,
+            disableColumnMenu: false,
             width: 160,
             headerAlign: "center",
             align: "center",

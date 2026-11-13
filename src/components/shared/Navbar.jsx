@@ -336,7 +336,7 @@ const Navbar = () => {
                         disabled={isCancelling}
                         onClick={handleConfirmExit}
                     >
-                        {isCancelling ? "Cancelling..." : "Leave Checkout"}
+                        {isCancelling ? "Otkazivanje..." : "Napusti naplatu"}
                     </Button>
                 </DialogActions>
             </Dialog>
