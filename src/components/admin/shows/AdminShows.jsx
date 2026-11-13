@@ -129,6 +129,12 @@ const AdminShows = () => {
                         className="w-full"
                         rows={tableRecords}
                         columns={adminShowTableColumn(handleEdit, handleShowView, handleDelete)}
+                        sx={{
+                            "& .MuiDataGrid-columnHeaderTitle": {
+                                fontWeight: 600,
+                                color: "#000",
+                            },
+                        }}
                         loading={isLoading}
                         paginationMode="server"
                         rowCount={pagination?.totalElements || 0}

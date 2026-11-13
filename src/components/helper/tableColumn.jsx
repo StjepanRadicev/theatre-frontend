@@ -18,6 +18,7 @@ export const adminShowTableColumn = (
         sortable: false,
         disableColumnMenu: true,
         headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
+        cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
     },
     {
         field: "duration",
@@ -28,6 +29,7 @@ export const adminShowTableColumn = (
         sortable: false,
         disableColumnMenu: true,
         headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
+        cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
     },
     {
         field: "description",
@@ -38,6 +40,7 @@ export const adminShowTableColumn = (
         sortable: false,
         disableColumnMenu: true,
         headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
+        cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
     },
     {
         field: "categoryName",
@@ -48,6 +51,7 @@ export const adminShowTableColumn = (
         sortable: false,
         disableColumnMenu: true,
         headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
+        cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
     },
     {
       field: "action",
@@ -394,6 +398,7 @@ export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
         headerAlign: "center",
         align: "center",
         headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
+        cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
     },
     {
         sortable: false,
@@ -405,6 +410,7 @@ export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
         headerAlign: "center",
         align: "center",
         headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
+        cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
     },
     {
         sortable: false,
@@ -416,6 +422,7 @@ export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
         headerAlign: "center",
         align: "center",
         headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
+        cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
         renderCell: (params) => (
             <span
                 className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -438,6 +445,7 @@ export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
         headerAlign: "center",
         align: "center",
         headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
+        cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
         renderCell: (params) => {
             const roleNames = {
                 ROLE_USER: "Korisnik",
@@ -465,6 +473,7 @@ export const adminUserTableColumn = (handleViewOrders, handleDeleteUser) => [
     headerAlign: "center",
     align: "center",
     headerClassName: "text-black font-semibold !border !border-gray-300 !text-center",
+    cellClassName: "text-slate-700 font-normal !border !border-gray-300 !text-center",
     renderCell: (params) => (
         <div className="flex items-center justify-center gap-2 h-full">
 

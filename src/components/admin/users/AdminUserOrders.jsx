@@ -92,6 +92,12 @@ const AdminUserOrders = () => {
             <DataGrid
                 rows={tableRecords}
                 columns={columns}
+                sx={{
+                    "& .MuiDataGrid-columnHeaderTitle": {
+                        fontWeight: 600,
+                        color: "#000",
+                    },
+                }}
                 paginationMode="server"
                 rowCount={userOrdersPagination?.totalElements ?? 0}
                 paginationModel={{

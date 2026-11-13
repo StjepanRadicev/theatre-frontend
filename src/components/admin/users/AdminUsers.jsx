@@ -165,6 +165,12 @@ const handleConfirmDelete = async () => {
                                 className="w-full"
                                 rows={tableRecords}
                                 columns={adminUserTableColumn(handleViewOrders)}
+                                sx={{
+                                    "& .MuiDataGrid-columnHeaderTitle": {
+                                        fontWeight: 600,
+                                        color: "#000",
+                                    },
+                                }}
                                 loading={isLoading}
                                 paginationMode="server"
                                 rowCount={pagination?.totalElements ?? 0}
